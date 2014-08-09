@@ -1,0 +1,27 @@
+{
+  "name": "crowdmap",
+  "version": "1.0.0",
+  "description": "BattleHack project",
+  "main": "src/server.js",
+  "dependencies": {
+    "express": "^4.8.2",
+    "mongoose": "^3.8.14",
+    "node-uuid": "^1.4.1",
+    "request": "^2.40.0",
+    "socket.io": "^1.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KyleLH/BattleHack"
+  },
+  "author": "Team Spaceship Lollipop",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KyleLH/BattleHack/issues"
+  },
+  "homepage": "https://github.com/KyleLH/BattleHack"
+}
