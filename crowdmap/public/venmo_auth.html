@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Venmo Authorization</title>
+    <style>
+        html, body, #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px
+        }
+
+        #panel {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            margin-left: -180px;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+        }
+    </style>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+
+
+<button onclick="authenticate()">Log in</button>
+
+<script>
+function authenticate() {
+	window.location = "https://api.venmo.com/v1/oauth/authorize?client_id=1879&scope=make_payments access_email access_profile&response_type=code";
+	//need a redirect_uri parameter when we have a site
+}
+</script>
+
+</head>
+</html>

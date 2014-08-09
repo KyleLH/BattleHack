@@ -9,8 +9,8 @@ module.exports = function(app) {
             url: 'https://api.venmo.com/v1/oauth/access_token',
             body: {
                 code: req.query.code,
-                client_id: '',
-                client_secret: ''
+                client_id: '1879',
+                client_secret: 'JW3td7LWy85KkYge9agsXaeTL77DRuza'
             }
         }, function(err, response, body) {
 
