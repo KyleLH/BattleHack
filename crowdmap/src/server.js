@@ -1,15 +1,15 @@
 var app = require('express')(),
     http = require('http').Server(app),
     io = require('socket.io')(http),
-    uuid = require('node-uuid');
+    uuid = require('node-uuid'),
+    models = require('./models'),
+    request = require('request');
 
 
 var clients = {};
 
 io.on('connection', function(socket) {
     //console.log(require('util').inspect(socket, { depth: null, colors: true }));
-
-
 
     var id = uuid.v4();
 
@@ -36,9 +36,6 @@ io.on('connection', function(socket) {
     });
 });
 
-app.get('/', function(req, res) {
-    res.sendFile('index.html', { root: './public' });
-});
 
 http.listen(80, function() {
     console.log('Listening on 80');
@@ -50,5 +47,24 @@ function broadcast() {
     });
 
     io.emit('coordinates', coords);
-
 }
+
+
+// Save a snapshot every five minutes.
+setTimeout(function() {
+    var snapshot = Object.keys(clients).map(function(id) {
+        return {
+            latitude: clients[id].coordinates.latitude,
+            longitude: clients[id].coordinates.longitude
+        }
+    });
+
+    new models.Snapshot({
+        timestamp: Date.now(),
+        locations: snapshot
+    }).save(function(err) {
+            if (err) console.error('Unable to save snapshot.', err);
+        });
+
+}, 5 * 60 * 1000);
+
