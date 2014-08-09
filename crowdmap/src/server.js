@@ -2,9 +2,7 @@ var app = require('express')(),
     http = require('http').Server(app),
     io = require('socket.io')(http),
     uuid = require('node-uuid'),
-    models = require('./models'),
-    request = require('request');
-
+    models = require('./models');
 
 var clients = {};
 
