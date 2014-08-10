@@ -11,10 +11,6 @@
         padding: 0px
     }
 
-    #menuID {
-        min-width: 25vw;
-        min-height: 62vh;
-    }
 
     #map-canvas div a img {
         display: none;
@@ -31,38 +27,6 @@
     <script src="components/multilevelpushmenu/jquery.multilevelpushmenu.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization"></script>
     <script src="/socket.io/socket.io.js"></script>
-
-<script>
-    var arrMenu = [
-        {
-            title: "Floc",
-            id: 'menuID',
-            icon: 'fa fa-reorder',
-            items: [
-                {
-                    name: 'Log In',
-                    icon: 'fa fa-unlock-alt',
-                    items: [
-                        {
-                            title: 'Log In',
-                            items: [
-                                {
-                                    name: 'User',
-                                    icon: 'fa fa-user',
-                                    link: '#'
-                                },
-                                {
-                                    name: 'Business',
-                                    icon: 'fa fa-users',
-                                    link: '#'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-</script>
 
 
     <script>
@@ -166,6 +130,9 @@
                 }
             });
         });
+        $(window).resize(function () {
+            $( '#menu' ).multilevelpushmenu( 'redraw' );
+        });
     </script>
 
 <script>
@@ -206,7 +173,7 @@
     function initialize() {
         var mapOptions = {
             zoom: 13,
-            disableDefaultUI: true
+            disableDefaultUI: true,
             center: boston,
             mapTypeId: google.maps.MapTypeId.SATELLITE
         };
