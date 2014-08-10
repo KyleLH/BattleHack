@@ -18,6 +18,10 @@
     "jquery": "~2.1.1",
     "angular-ui-router": "~0.2.10",
     "multilevelpushmenu": "~2.1.4",
-    "angular-multilevelpushmenu": "*"
+    "angular-multilevelpushmenu": "*",
+    "angular-slider-venturocket": "~0.3.2",
+    "angular-touch": "~1.2.21",
+    "angular-route": "~1.2.21",
+    "angular-ui-slider": "~0.0.2"
   }
 }

@@ -12,5 +12,5 @@ module.exports = function() {
         locations: [ PersonLocationSchema ]
     });
 
-    return mongoose.model('Snapshot', SnapshotSchema);
+    return mongoose.models.Snapshot ? mongoose.models.Snapshot : mongoose.model('Snapshot', SnapshotSchema);
 };
