@@ -36,7 +36,7 @@
     <script>
         var loggedin = true;
         // TODO: GET request to check if you're logged in.
-        var userType = "user";
+        var userType = "business";
         var arrMenu = [];
 
         if (!loggedin) {
@@ -87,6 +87,7 @@
                         {
                             name: 'Log Out',
                             icon: 'fa fa-lock',
+                            id: 'logout',
                             link: '#'
                         }
                     ]
@@ -100,17 +101,20 @@
                     icon: 'fa fa-reorder',
                     items: [
                         {
-                            name: 'Altisource',
+                            name: 'Bertuccis',
+                            id: 'buisnessName'
                             // icon: userIcon
                         },
                         {
                             name: 'Create Deal',
                             icon: 'fa fa-dollar',
+                            id: 'createDeal',
                             link: '#'
                         },
                         {
                             name: 'Log Out',
                             icon: 'fa fa-lock',
+                            id: 'logout',
                             link: '#'
                         }
                     ]
@@ -124,13 +128,20 @@
         $(document).ready(function() {
             $('#menu').multilevelpushmenu({
                 menu: arrMenu,
-                // mode: 'cover',
                 collapsed: true,
                 containersToPush: [$("#map-canvas")],
                 menuWidth: "15%",
                 menuHeight:"100%",
-                onItemClick: function () {
-                    console.log(arguments[2][0].textContent);
+                onItemClick: function (event, obj, obj2) {
+                    if (loggedin) {
+                        if (obj2[0].innerText == $("#createDeal")[0].innerText) {
+                            $("#myModal").modal();
+                        } else if (obj2[0].innerText == $("#logout")[0].innerText) {
+                            
+                        }
+                    } else if (obj2[0].innerText == $("#login")[0].innerText) {
+                            
+                    }
                 }
             });
         });
@@ -227,7 +238,7 @@ $('#ex1').slider({
 $(document).ready(function() {
     $("#ex1").on("slideStop", function (event) {
         console.log("Slider has stopped at " + event.value);
-    })
+    });
 })
 </script>
 
@@ -244,6 +255,37 @@ $(document).ready(function() {
     z-index: 10;
 }
 </style>
+
+<!-- Button trigger modal -->
+<div ng-controller="createDealController">
+<!-- <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">New Deal</h4>
+      </div>
+      <div class="modal-body">
+        <form  >
+            <input class="newAddress form-control" type="text" placeholder="Address...">
+            <br>
+            <textarea class="newDescription form-control" placeholder="Details..."></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearDeal()">Close</button>
+            <button  class="btn btn-primary" type="button"  data-dismiss="modal" ng-click="createDeal()">Save changes</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+</div>
+
 
 <span id="menu" style="position: absolute; z-index: 5;"></span>
 
