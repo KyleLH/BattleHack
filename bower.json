@@ -22,6 +22,7 @@
     "angular-slider-venturocket": "~0.3.2",
     "angular-touch": "~1.2.21",
     "angular-route": "~1.2.21",
-    "angular-ui-slider": "~0.0.2"
+    "angular-ui-slider": "~0.0.2",
+    "jquery-ui": "~1.11.0"
   }
 }

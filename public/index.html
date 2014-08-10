@@ -16,13 +16,34 @@
         display: none;
     }
 
+    #slider {
+        width: 300px;
+        position: absolute;
+        margin-left: 43vw;
+        margin-top: 90vh;
+        margin-right: 43vh;
+        z-index: 10;
+    }
+
 </style>
 
+    <script>
+        var historical = false;
+
+    </script>
+
+    <link rel="stylesheet" href="components/jquery-ui/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&subset=latin,cyrillic-ext,latin-ext,cyrillic'
           rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="components/multilevelpushmenu/jquery.multilevelpushmenu.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="components/angular/angular.js"></script>
+    <script type="text/javascript" src="components/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="js/angular/app.js"></script>
+    <script type="text/javascript" src="js/angular/controllers.js"></script>
+    <script type="text/javascript" src="components/angular-ui-slider/src/slider.js"></script>
     <script src="http://oss.maxcdn.com/libs/modernizr/2.6.2/modernizr.min.js"></script>
     <script src="components/multilevelpushmenu/jquery.multilevelpushmenu.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization"></script>
@@ -164,6 +185,7 @@
 </script>
 
 <script>
+
     var map, pointArray, heatmap;
 
     var people = [];
@@ -190,6 +212,8 @@
         heatmap.setMap(map);
 
         socket.on('coordinates', function(coordinates) {
+            if (historical) return;
+
             console.log('got coords', coordinates);
             people = coordinates.map(function(coordinate) {
                 return new google.maps.LatLng(coordinate.latitude, coordinate.longitude)
@@ -211,6 +235,13 @@
 
 <body ng-controller="HomeController">
 <span id="menu" style="position: absolute; z-index: 5;"></span>
+<div id="slider">
+    <div ui-slider="slider.options"
+         min="0"
+         max="19"
+         ng-model="history.position"></div>
+
+</div>
 
 <div id="map-canvas"></div>
 </body>

@@ -92,7 +92,7 @@ setInterval(function() {
 
 
 // Save a snapshot every five minutes.
-setTimeout(function() {
+setInterval(function() {
     var snapshot = Object.keys(clients).map(function(id) {
         if (clients[id].coordinates) {
             return {
@@ -114,5 +114,5 @@ setTimeout(function() {
             if (err) console.error('Unable to save snapshot.', err);
         });
 
-}, 5 * 60 * 1000);
+},  5 * 1000);
 

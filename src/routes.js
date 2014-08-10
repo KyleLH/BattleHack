@@ -28,6 +28,21 @@ module.exports = function(app) {
         res.sendFile('login.html', { root: './public' });
     });
 
+    app.get('/history', function(req, res) {
+        models.Snapshot
+            .find({})
+            .sort({ timestamp: -1 })
+            .limit(20)
+            .exec(function(err, history) {
+                if (err) {
+                    console.error("Unable to fetch history");
+                    res.status(500);
+                } else {
+                    res.json(history);
+                }
+            });
+    });
+
     app.post('/deals', function(req, res) {
         req.body.deals.forEach(function(deal) {
             new models.Deal(deal).save(function(err) {

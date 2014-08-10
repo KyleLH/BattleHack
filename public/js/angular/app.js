@@ -1,4 +1,4 @@
-var floc = angular.module('floc', ['ngRoute', 'vr.directives.slider']);
+var floc = angular.module('floc', ['ngRoute', 'ui.slider']);
 
 floc.config(function($routeProvider) {
     return $routeProvider
