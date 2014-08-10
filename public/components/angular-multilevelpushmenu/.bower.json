@@ -1,0 +1,36 @@
+{
+  "name": "angular-multilevelpushmenu",
+  "homepage": "https://github.com/wuxiaoying/multi-level-push-menu",
+  "description": "angular version of multilevelpushmenu",
+  "main": [
+    "pushmenu.js",
+    "pushmenu.css"
+  ],
+  "keywords": [
+    "menu"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.7",
+    "angular-animate": "~1.2.7",
+    "jquery": "~1.10.2",
+    "font-awesome": "~4.0.3"
+  },
+  "_release": "0b3a30d009",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "0b3a30d00912675f11806c1d06888c60f14f6bdb"
+  },
+  "_source": "git://github.com/wuxiaoying/angular-multilevelpushmenu.git",
+  "_target": "*",
+  "_originalSource": "angular-multilevelpushmenu",
+  "_direct": true
+}

@@ -1,12 +1,14 @@
 var express = require('express'),
     app = express(),
+    path = require('path'),
     http = require('http').Server(app),
     io = require('socket.io')(http),
     uuid = require('node-uuid'),
-    models = require('./models');
+    models = require('./models')();
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/bower_components',  express.static(__dirname + '/bower_components'));
+app.use(express.static(path.join(__dirname, '../public')));
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "jade");
 
 require('./routes')(app);
 
@@ -57,16 +59,24 @@ function broadcast() {
 // Save a snapshot every five minutes.
 setTimeout(function() {
     var snapshot = Object.keys(clients).map(function(id) {
-        return {
-            latitude: clients[id].coordinates.latitude,
-            longitude: clients[id].coordinates.longitude
+        if (clients[id].coordinates) {
+            return {
+                latitude: clients[id].coordinates.latitude,
+                longitude: clients[id].coordinates.longitude
+            };
+        } else {
+            return undefined;
         }
-    });
 
-    new models.Snapshot({
+    }).filter(function(element) { return element !== undefined });
+
+    console.log(models.Snapshot.toString());
+
+    console.dir(new models.Snapshot({
         timestamp: Date.now(),
         locations: snapshot
-    }).save(function(err) {
+    }))
+    .save(function(err) {
             if (err) console.error('Unable to save snapshot.', err);
         });
 

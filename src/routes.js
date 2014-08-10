@@ -1,6 +1,10 @@
 var request = require('request');
 
 module.exports = function(app) {
+    app.get('/partials/:template', function(req, res, next) {
+        res.render('/partials/' + req.params.template);
+    });
+
     app.get('/', function(req, res) {
         res.sendFile('index.html', { root: './public' });
     });

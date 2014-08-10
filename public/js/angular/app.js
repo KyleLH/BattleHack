@@ -1,2 +1,2 @@
-var floc = angular.module('floc', ['ui.router']);
+var floc = angular.module('floc', ['wxy.pushmenu']);
 
