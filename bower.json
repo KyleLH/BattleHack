@@ -17,6 +17,7 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "angular-ui-router": "~0.2.10",
-    "multilevelpushmenu": "~2.1.4"
+    "multilevelpushmenu": "~2.1.4",
+    "angular-multilevelpushmenu": "*"
   }
 }
