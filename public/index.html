@@ -192,9 +192,35 @@
             center: boston,
             mapTypeId: google.maps.MapTypeId.SATELLITE
         };
-
+        var myLatlng = new google.maps.LatLng(42.3500015, -71.05790016);
         map = new google.maps.Map(document.getElementById('map-canvas'),
                 mapOptions);
+        var contentString = '<div id="content">'+
+              '<div id="siteNotice">'+
+              '</div>'+
+              '<h1 id="firstHeading" class="firstHeading">State Street Cafe</h1>'+
+              '<div id="bodyContent">'+
+              '<p>Bring 5 friends and get a <i>world renowned</i> eggs bennidict '+
+              'free! Enjoy our various assortments of breakfast food.</p>'+
+              '<p>Attribution: State Street Cafe, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+              'http://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+              '(last visited June 22, 2009).</p>'+
+              '</div>'+
+              '</div>';
+
+          var infowindow = new google.maps.InfoWindow({
+              content: contentString,
+              minHeight: '1000px'
+          });
+
+          var marker = new google.maps.Marker({
+              position: myLatlng,
+              map: map,
+              title: 'State Street Cafe'
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map,marker);
+          });
 
         pointArray = new google.maps.MVCArray(people);
 
@@ -277,6 +303,7 @@ $(document).ready(function() {
             <textarea class="newDescription form-control" placeholder="Details..."></textarea>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-primary" ng-click="paypal()" >Pay with Paypal</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearDeal()">Close</button>
             <button  class="btn btn-primary" type="button"  data-dismiss="modal" ng-click="createDeal()">Save changes</button>
           </div>
@@ -285,7 +312,7 @@ $(document).ready(function() {
   </div>
 </div>
 </div>
-
+</div>
 
 <span id="menu" style="position: absolute; z-index: 5;"></span>
 

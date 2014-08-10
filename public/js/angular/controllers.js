@@ -26,5 +26,5 @@ floc.controller('createDealController', function ($scope) {
     $scope.newAddress = '';
     $scope.newDeal = '';
     $scope.newDescription = '';
-  }
+  };
 });
