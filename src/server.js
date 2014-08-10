@@ -12,7 +12,20 @@ app.set("view engine", "jade");
 
 require('./routes')(app);
 
-var clients = {};
+var clients = {},
+    boston = {
+        latitude: 42.3581,
+        longitude: -71.0636
+    };
+
+require('./seed').forEach(function(point) {
+    clients[uuid.v4()] = {
+        coordinates: {
+            latitude:  point.latitude,
+            longitude: point.longitude
+        }
+    };
+});
 
 io.on('connection', function(socket) {
     //console.log(require('util').inspect(socket, { depth: null, colors: true }));
@@ -56,6 +69,28 @@ function broadcast() {
 }
 
 
+setInterval(function() {
+
+    Object.keys(clients).forEach(function(id) {
+        var currentCoords = clients[id].coordinates;
+
+        if (!currentCoords) { return; }
+
+        var randomLatitudeShift = Math.random() / 10000,
+            randomLongitudeShift = Math.random() / 10000;
+
+        if (Math.random() > 0.5) randomLatitudeShift *= -1;
+        if (Math.random() > 0.5) randomLongitudeShift *= -1;
+
+        clients[id].coordinates = {
+            latitude: currentCoords.latitude + randomLatitudeShift,
+            longitude: currentCoords.longitude + randomLongitudeShift
+        };
+    });
+
+}, 500);
+
+
 // Save a snapshot every five minutes.
 setTimeout(function() {
     var snapshot = Object.keys(clients).map(function(id) {
@@ -68,15 +103,14 @@ setTimeout(function() {
             return undefined;
         }
 
-    }).filter(function(element) { return element !== undefined });
+    }).filter(function(element) {
+        return element !== undefined
+    });
 
-    console.log(models.Snapshot.toString());
-
-    console.dir(new models.Snapshot({
+    new models.Snapshot({
         timestamp: Date.now(),
         locations: snapshot
-    }))
-    .save(function(err) {
+    }).save(function(err) {
             if (err) console.error('Unable to save snapshot.', err);
         });
 

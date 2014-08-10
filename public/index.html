@@ -2,18 +2,26 @@
 <html ng-app="floc">
 <head>
 
-    <meta charset="utf-8">
-    <title>Heatmaps</title>
-    <style>
-        html, body, #map-canvas {
-            height: 100%;
-            margin: 0px;
-            padding: 0px
-        }
-        #map-canvas div a img {
-            display: none;
-        }
-    </style>
+<meta charset="utf-8">
+<title>Heatmaps</title>
+<style>
+    html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+    }
+
+    #menuID {
+        min-width: 25vw;
+        min-height: 62vh;
+    }
+
+    #map-canvas div a img {
+        display: none;
+    }
+
+</style>
+
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&subset=latin,cyrillic-ext,latin-ext,cyrillic'
           rel='stylesheet' type='text/css'>
@@ -23,6 +31,39 @@
     <script src="components/multilevelpushmenu/jquery.multilevelpushmenu.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=visualization"></script>
     <script src="/socket.io/socket.io.js"></script>
+
+<script>
+    var arrMenu = [
+        {
+            title: "Floc",
+            id: 'menuID',
+            icon: 'fa fa-reorder',
+            items: [
+                {
+                    name: 'Log In',
+                    icon: 'fa fa-unlock-alt',
+                    items: [
+                        {
+                            title: 'Log In',
+                            items: [
+                                {
+                                    name: 'User',
+                                    icon: 'fa fa-user',
+                                    link: '#'
+                                },
+                                {
+                                    name: 'Business',
+                                    icon: 'fa fa-users',
+                                    link: '#'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+</script>
+
 
     <script>
         var loggedin = true;
@@ -127,82 +168,81 @@
         });
     </script>
 
-    <script>
-        var socket = io('http://localhost');
+<script>
+    var socket = io('http://localhost');
 
-        socket.on('connect', function sendLocation() {
+    socket.on('connect', function sendLocation() {
 
-            navigator.geolocation.getCurrentPosition(function(geoposition) {
+        navigator.geolocation.getCurrentPosition(function(geoposition) {
 
-                socket.emit('coordinates', {
-                    latitude: geoposition.coords.latitude,
-                    longitude: geoposition.coords.longitude
-                });
-
+            socket.emit('coordinates', {
+                latitude: geoposition.coords.latitude,
+                longitude: geoposition.coords.longitude
             });
-
-            console.log('sending location');
-
-
-            setTimeout(sendLocation, 5000);
 
         });
 
-        socket.on('log', function(msg) {
-            console.log(msg);
-        })
+        console.log('sending location');
 
 
-    </script>
+        setTimeout(sendLocation, 5000);
 
-    <script>
-        var map, pointArray, heatmap;
+    });
 
-        var people = [];
+    socket.on('log', function(msg) {
+        console.log(msg);
+    })
 
-        var boston = new google.maps.LatLng(42.3561685, -71.0580716);
 
-        function initialize() {
-            var mapOptions = {
-                zoom: 13,
-                disableDefaultUI: true,
-                center: boston,
-                mapTypeId: google.maps.MapTypeId.SATELLITE
-            };
+</script>
 
-            map = new google.maps.Map(document.getElementById('map-canvas'),
-                    mapOptions);
+<script>
+    var map, pointArray, heatmap;
 
-            pointArray = new google.maps.MVCArray(people);
+    var people = [];
 
-            heatmap = new google.maps.visualization.HeatmapLayer({
-                data: pointArray
+    var boston = new google.maps.LatLng(42.3561685, -71.0580716);
+
+    function initialize() {
+        var mapOptions = {
+            zoom: 13,
+            disableDefaultUI: true
+            center: boston,
+            mapTypeId: google.maps.MapTypeId.SATELLITE
+        };
+
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);
+
+        pointArray = new google.maps.MVCArray(people);
+
+        heatmap = new google.maps.visualization.HeatmapLayer({
+            data: pointArray
+        });
+
+        heatmap.setMap(map);
+
+        socket.on('coordinates', function(coordinates) {
+            console.log('got coords', coordinates);
+            people = coordinates.map(function(coordinate) {
+                return new google.maps.LatLng(coordinate.latitude, coordinate.longitude)
             });
 
-            heatmap.setMap(map);
+            pointArray.clear();
 
-            socket.on('coordinates', function(coordinates) {
-                console.log('got coords', coordinates);
-                people = coordinates.map(function(coordinate) {
-                    return new google.maps.LatLng(coordinate.latitude, coordinate.longitude)
-                });
-
-                pointArray.clear();
-
-                people.forEach(function(person) {
-                    pointArray.push(person);
-                });
+            people.forEach(function(person) {
+                pointArray.push(person);
             });
-        }
+        });
+    }
 
-        google.maps.event.addDomListener(window, 'load', initialize);
+    google.maps.event.addDomListener(window, 'load', initialize);
 
 
-    </script>
+</script>
 </head>
 
-<body>
-
+<body ng-controller="HomeController">
 <span id="menu" style="position: absolute; z-index: 5;"></span>
 
 <div id="map-canvas"></div>
